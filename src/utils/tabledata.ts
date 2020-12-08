@@ -26,6 +26,7 @@ export const ServiceData: JsonData[] = [
     marketDate: '20040304',
     registerCaptial: '9897969.00',
     city: '上海',
+    updatedProp: [],
     updatedProp: []
   },
   {
@@ -37,7 +38,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20020202',
     registerCaptial: '343566777.00',
-    city: '苏州'
+    city: '苏州',
+    updatedProp: []
   },
   {
     id: 3,
@@ -48,7 +50,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '深圳'
+    city: '深圳',
+    updatedProp: []
   },
   {
     id: 4,
@@ -59,7 +62,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '0',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '杭州'
+    city: '杭州',
+    updatedProp: []
   },
   {
     id: 5,
@@ -70,7 +74,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '南京'
+    city: '南京',
+    updatedProp: []
   },
   {
     id: 6,
@@ -81,7 +86,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '广州'
+    city: '广州',
+    updatedProp: []
   },
   {
     id: 7,
@@ -92,7 +98,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '北京'
+    city: '北京',
+    updatedProp: []
   },
   {
     id: 8,
@@ -103,7 +110,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 9,
@@ -114,7 +122,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '天津'
+    city: '天津',
+    updatedProp: []
   },
   {
     id: 10,
@@ -125,7 +134,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 11,
@@ -136,7 +146,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 12,
@@ -147,7 +158,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 13,
@@ -158,7 +170,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 14,
@@ -169,7 +182,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 15,
@@ -180,7 +194,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 16,
@@ -191,7 +206,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 17,
@@ -202,7 +218,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 18,
@@ -213,7 +230,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 19,
@@ -224,7 +242,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 20,
@@ -235,7 +254,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 21,
@@ -246,7 +266,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 22,
@@ -257,7 +278,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 23,
@@ -268,7 +290,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 24,
@@ -279,7 +302,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 25,
@@ -290,7 +314,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 26,
@@ -301,7 +326,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 27,
@@ -312,7 +338,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 28,
@@ -323,7 +350,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 29,
@@ -334,7 +362,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 30,
@@ -345,7 +374,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 31,
@@ -356,7 +386,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 32,
@@ -367,7 +398,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 33,
@@ -378,7 +410,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 34,
@@ -389,7 +422,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 35,
@@ -400,7 +434,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 36,
@@ -411,7 +446,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 37,
@@ -422,7 +458,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 38,
@@ -433,7 +470,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 39,
@@ -444,7 +482,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 40,
@@ -455,7 +494,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 41,
@@ -466,7 +506,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 42,
@@ -477,7 +518,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 43,
@@ -488,7 +530,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 44,
@@ -499,7 +542,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 45,
@@ -510,7 +554,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 46,
@@ -521,7 +566,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 47,
@@ -532,7 +578,8 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   },
   {
     id: 48,
@@ -543,6 +590,7 @@ export const ServiceData: JsonData[] = [
     isToMarket: '1',
     marketDate: '20040304',
     registerCaptial: '9897969.00',
-    city: '上海'
+    city: '上海',
+    updatedProp: []
   }
 ]

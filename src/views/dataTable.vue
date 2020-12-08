@@ -8,26 +8,47 @@
     </el-header>
     <el-main>
       <el-card>
-        <div slot="header">记录集</div>
-        <el-row>
-          <el-button type="primary" @click="clickAddBtn">新增</el-button>
+        <div slot="header">
+          <span><i class="iconfont icon-biaoge"></i> 记录集</span>
+          <span style="float: right;"><i class="iconfont icon-zhankai1" style="font-size: 18px;"></i></span>
+        </div>
+        <el-row style="margin-bottom: 15px;">
+          <el-button type="primary" @click="clickAddBtn" size="mini">新增</el-button>
           <!-- <el-button type="">取消</el-button> -->
-          <el-button type="success">保存</el-button>
-          <el-button type="danger">批量删除</el-button>
+          <el-button type="success" size="mini">保存</el-button>
+          <el-button type="danger" size="mini">批量删除</el-button>
+          <div style="float: right;">
+            <el-form :model="searchForm" label-width="70px" inline size="mini" class="searchForm">
+              <el-form-item label="公司名称" prop="companyName" style="margin: 0 10px;">
+                <el-input v-model="searchForm.companyName"></el-input>
+              </el-form-item>
+              <el-form-item label="是否上市" prop="isToMarket" style="margin: 0 10px;">
+                <el-input v-model="searchForm.isToMarket"></el-input>
+              </el-form-item>
+              <el-form-item label="所在城市" prop="city" style="margin: 0 10px;">
+                <el-input v-model="searchForm.city"></el-input>
+              </el-form-item>
+              <el-form-item style="margin: 0 10px;">
+                <el-button type="primary">查询</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
         </el-row>
         <el-table :data="tableData" height="100%" stripe
                   highlight-current-row
                   :row-class-name="rowClassName"
                   :cell-class-name="setCellClass"
                   :cell-style="setCellStyle"
-                  @cell-click="cellClick">
+                  @cell-click="cellClick"
+                  size="mini"
+                  style="border: 1px solid #f0f2f5; border-radius: 5px;">
           <el-table-column type="selection"></el-table-column>
           <el-table-column label="公司代码" prop="companyCode" :filters="codeFilter" :filter-method="filterHandler">
             <template slot-scope="{ row }">
               <el-input
                 v-if="row.index === cellIndex && cellProp === 'companyCode'"
                 v-model="row.companyCode"
-                size="medium"
+                size="mini"
                 ref="elInput"
                 autofocus
                 @blur="inputBlur"
@@ -41,7 +62,7 @@
               <el-input
                 v-if="row.index === cellIndex && cellProp === 'companyName'"
                 v-model="row.companyName"
-                size="medium"
+                size="mini"
                 @blur="inputBlur"
                 ref="elInput"
                 autofocus>
@@ -54,7 +75,7 @@
               <el-input
                 v-if="row.index === cellIndex && cellProp === 'companyEnName'"
                 v-model="row.companyEnName"
-                size="medium"
+                size="mini"
                 @blur="inputBlur"
                 ref="elInput"
                 autofocus>
@@ -67,7 +88,7 @@
               <el-input
                 v-if="row.index === cellIndex && cellProp === 'createdDate'"
                 v-model="row.createdDate"
-                size="medium"
+                size="mini"
                 @blur="inputBlur"
                 ref="elInput"
                 autofocus>
@@ -91,7 +112,7 @@
               <el-input
                 v-if="row.index === cellIndex && cellProp === 'marketDate'"
                 v-model="row.marketDate"
-                size="medium"
+                size="mini"
                 @blur="inputBlur"
                 ref="elInput"
                 autofocus>
@@ -104,7 +125,7 @@
               <el-input
                 v-if="row.index === cellIndex && cellProp === 'registerCaptial'"
                 v-model="row.registerCaptial"
-                size="medium"
+                size="mini"
                 @blur="inputBlur"
                 ref="elInput"
                 autofocus>
@@ -117,7 +138,7 @@
               <el-input
                 v-if="row.index === cellIndex && cellProp === 'city'"
                 v-model="row.city"
-                size="medium"
+                size="mini"
                 @blur="inputBlur"
                 ref="elInput"
                 autofocus>
@@ -208,6 +229,11 @@ import { ServiceData, JsonData } from '@/utils/tabledata.ts';
   name: 'dataTable'
 })
 export default class Home extends Vue {
+  private searchForm = {
+    companyName: '',
+    isToMarket: '',
+    city: ''
+  };
   private cellUpdated = {
     label: '',
     value: ''
@@ -308,13 +334,12 @@ export default class Home extends Vue {
   }
   setCellStyle({row, column, rowIndex, columnIndex}: any) {
     if (row.updatedProp) {
-      (row.updatedProp as string[]).forEach(item => {
-        if (item === column.property) {
-          console.log('9999', row);
-          return 'backgroung: red';
+        const updCell = (row.updatedProp as string[]).filter(item => item === column.property);
+        if (updCell.length) {
+          row.updated = true;
+          return 'background: rgb(54, 128, 226);';
         }
-      });
-    }
+      }
   }
   cellValueChange(value: string, prop: string, row: any) {
     // this.cellIsChange = true;
@@ -346,15 +371,6 @@ export default class Home extends Vue {
   setCellClass({row, column, rowIndex, columnIndex}: any) {
     if (!row.id) {
       return 'isCreated';
-    } else {
-      if (row.updatedProp) {
-      (row.updatedProp as string[]).forEach(item => {
-        if (item === column.property) {
-          console.log('9999', row);
-          return 'isUpdated';
-        }
-      });
-    }
     }
   }
   clickAddBtn() {
@@ -441,6 +457,16 @@ export default class Home extends Vue {
   }
   .isUpdated {
     background: rgb(54, 128, 226);
+  }
+  .el-card__header {
+    // height: 50px;
+    // line-height: 50px;
+    // padding: 0 20px;
+  }
+  .searchForm {
+    .el-form-item--mini .el-form-item__content, .el-form-item--mini .el-form-item__label {
+      // line-height: 50px;
+    }
   }
 }
 
