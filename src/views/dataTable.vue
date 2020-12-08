@@ -10,12 +10,16 @@
       <el-card>
         <div slot="header">
           <span><i class="iconfont icon-biaoge"></i> 记录集</span>
-          <span style="float: right;"><i class="iconfont icon-zhankai1" style="font-size: 18px;"></i></span>
+          <span style="float: right;">
+            <el-button type="text" style="padding-right:10px;" @click="changeCard">切换</el-button>
+            <i class="iconfont icon-zhankai1" style="font-size: 18px;"></i>
+          </span>
         </div>
         <el-row style="margin-bottom: 15px;">
-          <el-button type="primary" @click="clickAddBtn" size="mini">新增</el-button>
-          <el-button type="success" size="mini">保存</el-button>
-          <el-button type="danger" size="mini">批量删除</el-button>
+          <el-button type="primary" @click="clickAddBtn" size="mini" v-if="this.changeCardVal">新增</el-button>
+          <!-- <el-button type="">取消</el-button> -->
+          <el-button type="success" size="mini" v-if="this.changeCardVal">保存</el-button>
+          <el-button type="danger" size="mini" v-if="this.changeCardVal">批量删除</el-button>
           <div style="float: right;">
             <el-form :model="searchForm" label-width="70px" inline size="mini" class="searchForm">
               <el-form-item label="公司名称" prop="companyName" style="margin: 0 10px;">
@@ -46,7 +50,8 @@
                   :cell-style="setCellStyle"
                   @cell-click="cellClick"
                   size="mini"
-                  style="border: 1px solid #f0f2f5; border-radius: 5px;">
+                  style="border: 1px solid #f0f2f5; border-radius: 5px;"
+                  v-if="this.changeCardVal">
           <el-table-column type="selection"></el-table-column>
           <el-table-column label="公司代码" prop="companyCode" :filters="codeFilter" :filter-method="filterHandler">
             <template slot-scope="{ row }">
@@ -176,6 +181,27 @@
               </template>
           </el-table-column>
         </el-table>
+
+        <div class="cardShow" v-if="!this.changeCardVal">
+          <el-card 
+          class="box-card cus-card" style="width:290px;float:left;"
+          v-for="items in tableData" :key="items.id"
+          >
+            <div slot="header" class="clearfix">
+              <span>{{items.companyName}}</span>
+            </div>
+            <div class="text item" >
+              <p>公司代码：{{items.companyCode}}</p>
+              <p>公司英文名：{{items.companyEnName}}</p>
+              <p>成立日期：{{items.createdDate}}</p>
+              <p>是否上市：{{items.isToMarket}}</p>
+              <p>上市日期：{{items.marketDate}}</p>
+              <p>注册资金：{{items.registerCaptial}}</p>
+              <p>所在城市：{{items.city}}</p>
+            </div>
+          </el-card>
+        </div>
+
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -184,7 +210,7 @@
           :page-size="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="totalSize"
-          style="margin-top: 10px;">
+          style="margin-top: 10px;clear:both;">
         </el-pagination>
       </el-card>
     </el-main>
@@ -280,6 +306,8 @@ export default class Home extends Vue {
   private pageSize = 10;
   private currentPage = 1;
   private totalSize = 0;
+  // card切换
+  private changeCardVal = true;
   get codeFilter() {
     const codeArr: string[] = [];
     const filterDate: {text: string; value: string}[] = [];
@@ -479,6 +507,9 @@ export default class Home extends Vue {
     this.currentPage = val;
     this.getList();
   }
+  changeCard(){
+    this.changeCardVal = !this.changeCardVal
+  }
 }
 </script>
 <style lang="scss">
@@ -523,7 +554,19 @@ export default class Home extends Vue {
     }
   }
 }
+.cardShow{
+  .cus-card{
+    margin-right: 20px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    .el-card__header{
+      padding:9px 10px;
+    }
+    .el-card__body{
+      padding:9px 10px;
+      line-height:16px;
+    }
+  } 
+}
 
-
-  
 </style>
