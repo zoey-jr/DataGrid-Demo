@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "mock": "json-server ./mock/data.json -p 3000 -w",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
@@ -12,6 +13,7 @@
     "element-china-area-data": "^5.0.2",
     "element-ui": "^2.14.1",
     "fibers": "^5.0.0",
+    "json-server": "^0.16.3",
     "normalize.css": "^8.0.1",
     "path": "^0.12.7",
     "path-to-regexp": "^6.2.0",
