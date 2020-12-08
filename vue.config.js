@@ -34,8 +34,8 @@ module.exports = {
     'style-resources-loader': {
       preProcessor: 'scss',
       patterns: [
-        '/Users/zoey/Desktop/work/单表操作设计/data-table/src/styles/_variables.scss',
-        '/Users/zoey/Desktop/work/单表操作设计/data-table/src/styles/_mixins.scss'
+        './src/styles/_variables.scss',
+        './src/styles/_mixins.scss'
       ]
     }
   },

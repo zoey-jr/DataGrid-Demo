@@ -14,16 +14,21 @@
         </div>
         <el-row style="margin-bottom: 15px;">
           <el-button type="primary" @click="clickAddBtn" size="mini">新增</el-button>
-          <!-- <el-button type="">取消</el-button> -->
           <el-button type="success" size="mini">保存</el-button>
           <el-button type="danger" size="mini">批量删除</el-button>
           <div style="float: right;">
             <el-form :model="searchForm" label-width="70px" inline size="mini" class="searchForm">
               <el-form-item label="公司名称" prop="companyName" style="margin: 0 10px;">
-                <el-input v-model="searchForm.companyName"></el-input>
+                <el-input v-model="searchForm.companyName" @change="inputChange"></el-input>
               </el-form-item>
-              <el-form-item label="是否上市" prop="isToMarket" style="margin: 0 10px;">
-                <el-input v-model="searchForm.isToMarket"></el-input>
+              <el-form-item label="成立日期" prop="createdDate" style="margin: 0 10px;">
+                <el-date-picker
+                  v-model="searchForm.createdDate"
+                  value-format="yyyy-MM-dd"
+                  type="date"
+                  placeholder="选择日期"
+                  style="width: 200px;">
+                </el-date-picker>
               </el-form-item>
               <el-form-item label="所在城市" prop="city" style="margin: 0 10px;">
                 <el-input v-model="searchForm.city"></el-input>
@@ -65,7 +70,8 @@
                 size="mini"
                 @blur="inputBlur"
                 ref="elInput"
-                autofocus>
+                autofocus
+                @change="cellValueChange(row.companyName, 'companyName', row)">
               </el-input>
               <span v-else>{{row.companyName}}</span>
             </template>
@@ -78,21 +84,27 @@
                 size="mini"
                 @blur="inputBlur"
                 ref="elInput"
-                autofocus>
+                autofocus
+                @change="cellValueChange(row.companyEnName, 'companyEnName', row)">
               </el-input>
               <span v-else>{{row.companyEnName}}</span>
             </template>
           </el-table-column>
           <el-table-column label="成立日期" prop="createdDate" sortable>
             <template slot-scope="{ row }">
-              <el-input
+              <el-date-picker
                 v-if="row.index === cellIndex && cellProp === 'createdDate'"
                 v-model="row.createdDate"
+                value-format="yyyyMMdd"
+                type="date"
+                placeholder="选择日期"
                 size="mini"
+                style="width: 200px;"
                 @blur="inputBlur"
                 ref="elInput"
-                autofocus>
-              </el-input>
+                autofocus
+                @change="cellValueChange(row.createdDate, 'createdDate', row)">
+              </el-date-picker>
               <span v-else>{{row.createdDate}}</span>
             </template>
           </el-table-column>
@@ -109,14 +121,19 @@
           </el-table-column>
           <el-table-column label="上市日期" prop="marketDate" sortable :filters="marketDateFilter" :filter-method="filterHandler">
             <template slot-scope="{ row }">
-              <el-input
+              <el-date-picker
                 v-if="row.index === cellIndex && cellProp === 'marketDate'"
                 v-model="row.marketDate"
+                value-format="yyyyMMdd"
+                type="date"
+                placeholder="选择日期"
                 size="mini"
+                style="width: 200px;"
                 @blur="inputBlur"
                 ref="elInput"
-                autofocus>
-              </el-input>
+                autofocus
+                @change="cellValueChange(row.marketDate, 'marketDate', row)">
+              </el-date-picker>
               <span v-else>{{row.marketDate}}</span>
             </template>
           </el-table-column>
@@ -128,7 +145,8 @@
                 size="mini"
                 @blur="inputBlur"
                 ref="elInput"
-                autofocus>
+                autofocus
+                @change="cellValueChange(row.registerCaptial, 'registerCaptial', row)">
               </el-input>
               <span v-else>{{row.registerCaptial}}</span>
             </template>
@@ -141,7 +159,8 @@
                 size="mini"
                 @blur="inputBlur"
                 ref="elInput"
-                autofocus>
+                autofocus
+                @change="cellValueChange(row.city, 'city', row)">
               </el-input>
               <span v-else>{{row.city}}</span>
             </template>
@@ -183,6 +202,7 @@
         <el-form-item label="成立日期" prop="createdDate">
           <el-date-picker
             v-model="formData.createdDate"
+            value-format="yyyyMMdd"
             type="date"
             placeholder="选择日期"
             style="width: 200px;">
@@ -200,6 +220,7 @@
         <el-form-item label="上市日期" prop="marketDate">
           <el-date-picker
             v-model="formData.marketDate"
+            value-format="yyyyMMdd"
             type="date"
             placeholder="选择日期"
             style="width: 200px;">
@@ -332,27 +353,39 @@ export default class Home extends Vue {
   mounted () {
     this.getTableData();
   }
+  inputChange() {
+    console.log('99999');
+  }
   setCellStyle({row, column, rowIndex, columnIndex}: any) {
     if (row.updatedProp) {
-        const updCell = (row.updatedProp as string[]).filter(item => item === column.property);
-        if (updCell.length) {
-          row.updated = true;
-          return 'background: rgb(54, 128, 226);';
-        }
+      const updCell = (row.updatedProp as string[]).filter(item => item === column.property);
+      if (updCell.length) {
+        row.updated = true;
+        return 'background: rgba(50, 134, 230, 0.452);';
+      } else {
+        // console.log('还原了');
+        return 'background: none;'
       }
+    }
   }
   cellValueChange(value: string, prop: string, row: any) {
     // this.cellIsChange = true;
-    console.log(value, prop);
+    // console.log(value, prop);
     this.cellUpdated.label = prop;
     this.cellUpdated.value = value;
-    console.log(ServiceData);
-    const preRow = ServiceData.filter(item => item.id === row.id);
+    // console.log(ServiceData);
+    const preRow = ServiceData.filter(item => item.id === row.id)[0];
+    console.log('preRow', preRow);
     if (preRow[prop] !== value) {
       row.updated = true;
       row.updatedProp.push(prop);
+    } else {
+      const index = (row.updatedProp as string[]).findIndex(item => item === prop);
+      if (index >= 0) {
+        row.updatedProp.splice(index, 1);
+      }
     }
-    console.log(row);
+    console.log('row', row);
   }
   inputBlur() {
     this.cellIndex = 0;
@@ -379,14 +412,35 @@ export default class Home extends Vue {
   confirmForm() {
     // this.editRow = this.formData;
     if (this.formData.id) {
-      this.editRow.companyCode = this.formData.companyCode;
-      this.editRow.companyName = this.formData.companyName;
-      this.editRow.companyEnName = this.formData.companyEnName;
-      this.editRow.createdDate = this.formData.createdDate;
-      this.editRow.isToMarket = this.formData.isToMarket;
-      this.editRow.marketDate = this.formData.marketDate;
-      this.editRow.registerCaptial = this.formData.registerCaptial;
-      this.editRow.city = this.formData.city;
+      console.log('修改前行数据', this.editRow);
+      console.log('表单数据',  this.formData);
+      const preRow = ServiceData.filter(item => item.id === this.formData.id)[0];
+      for (const i in preRow)  {
+        for (const j in this.formData) {
+          if (i === j) {
+            // ts-ignore
+            if (preRow[i] !== this.formData[j]) {
+              (this.editRow.updatedProp as string[]).push(i);
+              this.editRow[i] = this.formData[j];
+            } else {
+              const index = (this.editRow.updatedProp as string[]).findIndex(item => item === i);
+              if (index >= 0) {
+                (this.editRow.updatedProp as string[]).splice(index, 1);
+              }
+              this.editRow[i] = this.formData[j];
+            }
+          }
+        }
+      }
+      console.log('修改后后行数据', this.editRow);
+      // this.editRow.companyCode = this.formData.companyCode;
+      // this.editRow.companyName = this.formData.companyName;
+      // this.editRow.companyEnName = this.formData.companyEnName;
+      // this.editRow.createdDate = this.formData.createdDate;
+      // this.editRow.isToMarket = this.formData.isToMarket;
+      // this.editRow.marketDate = this.formData.marketDate;
+      // this.editRow.registerCaptial = this.formData.registerCaptial;
+      // this.editRow.city = this.formData.city;
     } else {
       this.tableData.unshift({
         ...this.formData,
@@ -401,6 +455,7 @@ export default class Home extends Vue {
   }
   clickEditBtn(row: any) {
     this.dialogVisible = true;
+    // 保存修改前行数据
     this.editRow = row;
     this.formData = {...row};
   }
@@ -429,7 +484,6 @@ export default class Home extends Vue {
 <style lang="scss">
 .el-container {
   height: 100vh;
-  // overflow: auto;
   background: $gary-bg;
   .el-header {
     height: 40px !important;
@@ -453,10 +507,10 @@ export default class Home extends Vue {
     // content: '\e621';
   }
   .isCreated {
-    background: rgb(156, 235, 231);
+    background: rgb(186, 241, 239);
   }
   .isUpdated {
-    background: rgb(54, 128, 226);
+    background: none;
   }
   .el-card__header {
     // height: 50px;
