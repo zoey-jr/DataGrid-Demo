@@ -11,15 +11,17 @@
         <div slot="header">
           <span><i class="iconfont icon-biaoge"></i> 记录集</span>
           <span style="float: right;">
-            <el-button type="text" style="padding-right:10px;" @click="changeCard">切换</el-button>
+            <el-button type="text" style="padding-right:10px;" @click="changeCard">
+              <i class="iconfont" :class="changeCardVal ? 'icon-cardview' : 'icon-custom-form'"></i>
+            </el-button>
             <i class="iconfont icon-zhankai1" style="font-size: 18px;"></i>
           </span>
         </div>
         <el-row style="margin-bottom: 15px;">
-          <el-button type="primary" @click="clickAddBtn" size="mini" v-if="this.changeCardVal">新增</el-button>
+          <el-button type="primary" @click="clickAddBtn" size="mini" v-if="changeCardVal">新增</el-button>
           <!-- <el-button type="">取消</el-button> -->
-          <el-button type="success" size="mini" v-if="this.changeCardVal">保存</el-button>
-          <el-button type="danger" size="mini" v-if="this.changeCardVal">批量删除</el-button>
+          <el-button type="success" size="mini" v-if="changeCardVal" @click="clickSaveBtn">保存</el-button>
+          <el-button type="danger" size="mini" v-if="changeCardVal" @click="batchDelete">批量删除</el-button>
           <div style="float: right;">
             <el-form :model="searchForm" label-width="70px" inline size="mini" class="searchForm">
               <el-form-item label="公司名称" prop="companyName" style="margin: 0 10px;">
@@ -45,13 +47,15 @@
         </el-row>
         <el-table :data="tableData" height="100%" stripe
                   highlight-current-row
-                  :row-class-name="rowClassName"
+                  :row-class-name="setRowClassName"
                   :cell-class-name="setCellClass"
                   :cell-style="setCellStyle"
                   @cell-click="cellClick"
+                  @selection-change="selectionChange"
                   size="mini"
                   style="border: 1px solid #f0f2f5; border-radius: 5px;"
-                  v-if="this.changeCardVal">
+                  v-if="changeCardVal"
+                  ref="table">
           <el-table-column type="selection"></el-table-column>
           <el-table-column label="公司代码" prop="companyCode" :filters="codeFilter" :filter-method="filterHandler">
             <template slot-scope="{ row }">
@@ -182,7 +186,7 @@
           </el-table-column>
         </el-table>
 
-        <div class="cardShow" v-if="!this.changeCardVal">
+        <div class="cardShow" v-if="!changeCardVal">
           <el-card 
           class="box-card cus-card" style="width:290px;float:left;"
           v-for="items in tableData" :key="items.id"
@@ -270,12 +274,15 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ServiceData, JsonData } from '@/utils/tabledata.ts';
+import { ElTable } from 'element-ui/types/table';
 // import { provinceAndCityData，CodeToText} from 'element-china-area-data'
 
 @Component({
   name: 'dataTable'
 })
 export default class Home extends Vue {
+  private destroyData: JsonData[] = [];
+  private selectedTableRow: JsonData[] = [];
   private searchForm = {
     companyName: '',
     isToMarket: '',
@@ -381,6 +388,14 @@ export default class Home extends Vue {
   mounted () {
     this.getTableData();
   }
+  clickSaveBtn() {
+    console.log('save', this.tableData);
+    console.log('destroyData', this.destroyData);
+    
+    setTimeout(() => {
+      this.destroyData = [];
+    }, 100);
+  }
   inputChange() {
     console.log('99999');
   }
@@ -389,9 +404,8 @@ export default class Home extends Vue {
       const updCell = (row.updatedProp as string[]).filter(item => item === column.property);
       if (updCell.length) {
         row.updated = true;
-        return 'background: rgba(50, 134, 230, 0.452);';
+        return 'border: 1px dashed #4484ee; border-radius: 5px;';
       } else {
-        // console.log('还原了');
         return 'background: none;'
       }
     }
@@ -423,11 +437,16 @@ export default class Home extends Vue {
     this.cellIndex = row.index;
     this.cellProp = column.property;
     this.$nextTick(() => {
-      (this.$refs.elInput as HTMLElement).focus();
+      if (this.$refs.elInput) {
+        (this.$refs.elInput as HTMLElement).focus();
+      }
     });
   }
-  rowClassName({ row, rowIndex }: any) {
+  setRowClassName({ row, rowIndex }: any) {
     row.index = rowIndex;
+    // if (!row.id) {
+    //   return 'isCreated';
+    // }
   }
   setCellClass({row, column, rowIndex, columnIndex}: any) {
     if (!row.id) {
@@ -461,25 +480,46 @@ export default class Home extends Vue {
         }
       }
       console.log('修改后后行数据', this.editRow);
-      // this.editRow.companyCode = this.formData.companyCode;
-      // this.editRow.companyName = this.formData.companyName;
-      // this.editRow.companyEnName = this.formData.companyEnName;
-      // this.editRow.createdDate = this.formData.createdDate;
-      // this.editRow.isToMarket = this.formData.isToMarket;
-      // this.editRow.marketDate = this.formData.marketDate;
-      // this.editRow.registerCaptial = this.formData.registerCaptial;
-      // this.editRow.city = this.formData.city;
     } else {
-      this.tableData.unshift({
+      this.allCompanyData.unshift({
         ...this.formData,
         created: true
       });
+      this.getList();
     }
     this.dialogVisible = false;
   }
-  clickDeleteBtn(row: any, index: number) {
-    console.log(index);
-    this.tableData.splice(index, 1);
+  selectionChange(selection: JsonData[]) {
+    console.log('selection', selection);
+    this.selectedTableRow = selection;
+  }
+  batchDelete() {
+    this.allCompanyData.forEach((item, index) => {
+      this.selectedTableRow.forEach(selectItem => {
+        if (selectItem.id === item.id || selectItem.companyCode === item.companyCode) {
+          this.allCompanyData.splice(index, 1);
+          this.destroyData.push(item);
+        }
+      });
+      // const condition = this.selectedTableRow.filter(selectItem => selectItem.id === item.id || selectItem.companyCode === item.companyCode);
+      // if (condition.length) {
+      //   item.destory = true;
+      // }
+    });
+    this.getList();
+    // this.tableData = this.tableData.filter((item, index) => index < this.currentPage * this.pageSize && index >= this.pageSize * (this.currentPage - 1));
+    // this.totalSize = this.tableData.length;
+    console.log(this.tableData);
+    console.log(this.allCompanyData);
+  }
+  clickDeleteBtn(row: any) {
+    // console.log(index);
+    // this.tableData.splice(index, 1);
+    this.destroyData.push(row);
+    const ind = this.allCompanyData.findIndex(item => item.companyCode === row.companyCode);
+    this.allCompanyData.splice(ind, 1);
+    this.getList();
+    // row.destory = true;
   }
   clickEditBtn(row: any) {
     this.dialogVisible = true;
@@ -538,11 +578,22 @@ export default class Home extends Vue {
     // content: '\e621';
   }
   .isCreated {
-    background: rgb(186, 241, 239);
+    border: 1px dashed #4484ee;
+    border-left: 0;
+    border-radius: 5px;
   }
-  .isUpdated {
-    background: none;
+  .el-table__row td.isCreated:nth-child(1) {
+    border-left: 1px dashed #4484ee !important;
   }
+  .el-table__row.current-row {
+    background: #ffffdc !important
+  }
+  // .isUpdated {
+  //   background: none;
+  // }
+  // .row-destory {
+  //   display: none;
+  // }
   .el-card__header {
     // height: 50px;
     // line-height: 50px;
