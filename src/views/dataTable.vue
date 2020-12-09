@@ -585,9 +585,7 @@ export default class Home extends Vue {
   .el-table__row td.isCreated:nth-child(1) {
     border-left: 1px dashed #4484ee !important;
   }
-  .el-table__row.current-row {
-    background: #ffffdc !important
-  }
+  
   // .isUpdated {
   //   background: none;
   // }
