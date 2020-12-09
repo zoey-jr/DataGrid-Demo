@@ -1,3 +1,14 @@
 .el-table__row.current-row {
   background: #ffffdc !important
 }
+.el-button.el-button--primary{
+  background: #eef5fe;
+  color: #59a0f8;
+  border-color: #bcdafb;
+  height: 24px;
+  border-radius:12px;
+  padding: 2px 10px;
+}
+.el-table__row.el-table__row--striped{
+  background: #eef5fe;
+}

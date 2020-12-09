@@ -6,3 +6,8 @@ body,div,p {
   margin: 0;
   padding: 0;
 }
+.clear:after{
+  content: "";
+  display: block;
+  clear: both;
+}

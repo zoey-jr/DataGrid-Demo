@@ -11,17 +11,17 @@
         <div slot="header">
           <span><i class="iconfont icon-biaoge"></i> 记录集</span>
           <span style="float: right;">
-            <el-button type="text" style="padding-right:10px;" @click="changeCard">
+            <el-button type="text" style="padding:0 10px 0 0;" @click="changeCard">
               <i class="iconfont" :class="changeCardVal ? 'icon-cardview' : 'icon-custom-form'"></i>
             </el-button>
-            <i class="iconfont icon-zhankai1" style="font-size: 18px;"></i>
+            <i :class="[openQueryBar?'iconfont icon-zhankai1':'iconfont icon-zhankai2']" style="font-size: 18px;" @click="toggleHeader()"></i>
           </span>
         </div>
-        <el-row style="margin-bottom: 15px;">
+        <el-row style="margin-bottom: 15px;" v-if="openQueryBar">
           <el-button type="primary" @click="clickAddBtn" size="mini" v-if="changeCardVal">新增</el-button>
           <!-- <el-button type="">取消</el-button> -->
-          <el-button type="success" size="mini" v-if="changeCardVal" @click="clickSaveBtn">保存</el-button>
-          <el-button type="danger" size="mini" v-if="changeCardVal" @click="batchDelete">批量删除</el-button>
+          <el-button type="primary" size="mini" v-if="changeCardVal" @click="clickSaveBtn">保存</el-button>
+          <el-button type="primary" size="mini" v-if="changeCardVal" @click="batchDelete">批量删除</el-button>
           <div style="float: right;">
             <el-form :model="searchForm" label-width="70px" inline size="mini" class="searchForm">
               <el-form-item label="公司名称" prop="companyName" style="margin: 0 10px;">
@@ -54,7 +54,7 @@
                   @selection-change="selectionChange"
                   size="mini"
                   style="border: 1px solid #f0f2f5; border-radius: 5px;"
-                  v-if="changeCardVal"
+                  v-if="changeCardVal&&openQueryBar"
                   ref="table">
           <el-table-column type="selection"></el-table-column>
           <el-table-column label="公司代码" prop="companyCode" :filters="codeFilter" :filter-method="filterHandler">
@@ -120,8 +120,8 @@
           <el-table-column label="是否上市" prop="isToMarket">
             <template slot-scope="{row}">
               <el-switch v-model="row.isToMarket" 
-                         active-color="#13ce66" 
-                         inactive-color="#ff4949" 
+                         active-color="#409eff" 
+                         inactive-color="#e5effe" 
                          active-value="1" 
                          inactive-value="0"
                          ref="elInput">
@@ -185,27 +185,30 @@
               </template>
           </el-table-column>
         </el-table>
-
-        <div class="cardShow" v-if="!changeCardVal">
+        <div class="cardShow" v-if="(!changeCardVal) && openQueryBar">
           <el-card 
           class="box-card cus-card" style="width:290px;float:left;"
-          v-for="items in tableData" :key="items.id"
+          v-for="items in tableData" :key="items.id" shadow="hover"
           >
             <div slot="header" class="clearfix">
               <span>{{items.companyName}}</span>
+              <span style="float:right;color:#000">{{items.isToMarket==='1'?'已上市':'未上市'}}</span>
             </div>
-            <div class="text item" >
-              <p>公司代码：{{items.companyCode}}</p>
-              <p>公司英文名：{{items.companyEnName}}</p>
-              <p>成立日期：{{items.createdDate}}</p>
-              <p>是否上市：{{items.isToMarket}}</p>
-              <p>上市日期：{{items.marketDate}}</p>
-              <p>注册资金：{{items.registerCaptial}}</p>
-              <p>所在城市：{{items.city}}</p>
+            <div class="text item clear" >
+              <div class="companyDetail">
+                <p>公司代码：{{items.companyCode}}</p>
+                <p>公司英文名：{{items.companyEnName}}</p>
+                <p>成立日期：{{items.createdDate}}</p>
+                <p v-show="items.isToMarket==='1'">上市日期：{{items.marketDate}}</p>
+                <p>注册资金：{{items.registerCaptial}}</p>
+                <p>所在城市：{{items.city}}</p>
+              </div>
+              <div class="companyLogo">
+                <img src="@/assets/baologo.png" alt="">
+              </div>
             </div>
           </el-card>
         </div>
-
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -214,7 +217,8 @@
           :page-size="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="totalSize"
-          style="margin-top: 10px;clear:both;">
+          style="margin-top: 10px;clear:both;"
+          v-if="openQueryBar">
         </el-pagination>
       </el-card>
     </el-main>
@@ -240,8 +244,8 @@
         </el-form-item>
         <el-form-item label="是否上市" prop="isToMarket">
           <el-switch v-model="formData.isToMarket" 
-                     active-color="#13ce66" 
-                     inactive-color="#ff4949" 
+                     active-color="#409eff" 
+                     inactive-color="#e5effe" 
                      active-value="1" 
                      inactive-value="0"
                      style="width: 200px;">
@@ -263,7 +267,7 @@
           <el-input v-model="formData.city" style="width: 200px;"></el-input>
         </el-form-item>
         <div style="text-align: center">
-          <el-button @click="dialogVisible = false">取消</el-button>
+          <el-button @click="dialogVisible = false" type="primary">取消</el-button>
           <el-button @click="confirmForm" type="primary">确定</el-button>
         </div>
       </el-form>
@@ -288,6 +292,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { ServiceData, JsonData } from '@/utils/tabledata.ts';
 import { ElTable } from 'element-ui/types/table';
+import $ from 'jquery';
 // import { provinceAndCityData，CodeToText} from 'element-china-area-data'
 
 @Component({
@@ -328,6 +333,8 @@ export default class Home extends Vue {
   private totalSize = 0;
   // card切换
   private changeCardVal = true;
+  // 打开查询header
+  private openQueryBar = true;
   // 打开主题配置
   private drawer = false;
   get codeFilter() {
@@ -410,20 +417,29 @@ export default class Home extends Vue {
     setTimeout(() => {
       this.destroyData = [];
     }, 100);
+    this.allCompanyData.forEach(val => {
+      if(!val.id){
+        val.id = new Date().getTime();
+        console.log('id',val);
+    }
+    })
+    $(".isCreated").removeClass("isCreated");
+    $(".isUpdated").removeClass("isUpdated");
+    this.getList();
   }
   inputChange() {
     console.log('99999');
   }
   setCellStyle({row, column, rowIndex, columnIndex}: any) {
-    if (row.updatedProp) {
-      const updCell = (row.updatedProp as string[]).filter(item => item === column.property);
-      if (updCell.length) {
-        row.updated = true;
-        return 'border: 1px dashed #4484ee; border-radius: 5px;';
-      } else {
-        return 'background: none;'
-      }
-    }
+    // if (row.updatedProp) {
+    //   const updCell = (row.updatedProp as string[]).filter(item => item === column.property);
+    //   if (updCell.length) {
+    //     row.updated = true;
+    //     return 'border: 1px dashed #4484ee; border-radius: 5px;';
+    //   } else {
+    //     return 'background: none;'
+    //   }
+    // }
   }
   cellValueChange(value: string, prop: string, row: any) {
     // this.cellIsChange = true;
@@ -459,13 +475,22 @@ export default class Home extends Vue {
   }
   setRowClassName({ row, rowIndex }: any) {
     row.index = rowIndex;
+    if (!row.id) {
+      return 'isCreated';
+    }
+  }
+  setCellClass({row, column, rowIndex, columnIndex}: any) {
     // if (!row.id) {
     //   return 'isCreated';
     // }
-  }
-  setCellClass({row, column, rowIndex, columnIndex}: any) {
-    if (!row.id) {
-      return 'isCreated';
+    if (row.updatedProp) {
+      const updCell = (row.updatedProp as string[]).filter(item => item === column.property);
+      if (updCell.length) {
+        row.updated = true;
+        return 'isUpdated';
+      } else {
+        return ''
+      }
     }
   }
   clickAddBtn() {
@@ -565,6 +590,9 @@ export default class Home extends Vue {
   changeCard(){
     this.changeCardVal = !this.changeCardVal
   }
+  toggleHeader(){
+    this.openQueryBar = !this.openQueryBar;
+  }
 }
 </script>
 <style lang="scss">
@@ -592,18 +620,19 @@ export default class Home extends Vue {
   .el-icon-arrow-down:before {
     // content: '\e621';
   }
-  .isCreated {
+  .isCreated>td{
     border: 1px dashed #4484ee;
     border-left: 0;
     border-radius: 5px;
   }
-  .el-table__row td.isCreated:nth-child(1) {
+  .el-table__row.isCreated>td:nth-child(1) {
     border-left: 1px dashed #4484ee !important;
   }
   
-  // .isUpdated {
-  //   background: none;
-  // }
+  .isUpdated {
+    border: 1px dashed #4484ee; 
+    border-radius: 5px;
+  }
   // .row-destory {
   //   display: none;
   // }
@@ -620,15 +649,42 @@ export default class Home extends Vue {
 }
 .cardShow{
   .cus-card{
-    margin-right: 20px;
+    margin:0 12px;
     margin-bottom: 10px;
     font-size: 14px;
+    &:hover{
+      transform: translateY(-5px);
+    }
     .el-card__header{
+      height: 35px;
+      box-sizing: border-box;
       padding:9px 10px;
+      font-size: 14px;
+      font-family: PingFangSC-Regular;
+      color: #fff;
+      padding-left: 20px;
+      background-image: linear-gradient(to right, #59a0f8, #bcdafb);
     }
     .el-card__body{
-      padding:9px 10px;
+      padding:9px 15px;
+      font-size: 12px;
+      font-family: PingFangSC-Regular;
       line-height:20px;
+      background:rgb(250, 250, 250);
+      &:hover{
+        background: #fff;
+      }
+      .companyDetail{
+        float: left;
+      }
+      .companyLogo{
+        float: right;
+        width:30%;
+        img{
+          width: 80%;
+          margin:30px 0;
+        }
+      }
     }
   } 
 }
