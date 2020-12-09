@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "mock": "json-server ./mock/data.json -p 3000 -w",
+    "mock": "json-server ./mock/data.json -p 3003 -w",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
@@ -33,8 +33,10 @@
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/eslint-config-typescript": "^5.0.2",
+    "element-theme-chalk": "^2.14.1",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "express": "^4.17.1",
     "node-sass": "^5.0.0",
     "sass": "^1.30.0",
     "sass-loader": "^10.1.0",

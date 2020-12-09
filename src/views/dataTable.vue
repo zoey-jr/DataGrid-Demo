@@ -268,6 +268,19 @@
         </div>
       </el-form>
     </el-dialog>
+
+    <div class="theme">
+      <div class="theme-Config" :style="{backgroundColor: $store.state.baseColor}" @click="drawer = true">
+        <i class="iconfont icon-shezhi"></i>
+      </div>
+      <el-drawer
+      title="主题配置"
+      :visible.sync="drawer"
+      :with-header="false"
+      size="300px">
+        <span>主题色</span>
+      </el-drawer>
+    </div>
   </el-container>
 </template>
 
@@ -315,6 +328,8 @@ export default class Home extends Vue {
   private totalSize = 0;
   // card切换
   private changeCardVal = true;
+  // 打开主题配置
+  private drawer = false;
   get codeFilter() {
     const codeArr: string[] = [];
     const filterDate: {text: string; value: string}[] = [];
@@ -613,9 +628,27 @@ export default class Home extends Vue {
     }
     .el-card__body{
       padding:9px 10px;
-      line-height:16px;
+      line-height:20px;
     }
   } 
+}
+.theme-Config{
+  background: #409EFF;
+  width: 36px;
+  height: 36px;
+  font-size: 12px !important;
+  color: white;
+  position: fixed;
+  right: 0;
+  top:50%;
+  transform: translateY(-50%);
+  text-align: center;
+  border-radius: 5px 0 0 5px;
+  i{
+    display: inline-block;
+    margin: auto;
+    line-height: 36px;
+  }
 }
 
 </style>
