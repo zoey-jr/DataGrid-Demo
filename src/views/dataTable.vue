@@ -17,12 +17,8 @@
             <i :class="[openQueryBar?'iconfont icon-zhankai1':'iconfont icon-zhankai2']" style="font-size: 18px;" @click="toggleHeader()"></i>
           </span>
         </div>
-        <el-row style="margin-bottom: 15px;" v-if="openQueryBar">
-          <el-button type="primary" @click="clickAddBtn" size="mini" v-if="changeCardVal">新增</el-button>
-          <!-- <el-button type="">取消</el-button> -->
-          <el-button type="primary" size="mini" v-if="changeCardVal" @click="clickSaveBtn">保存</el-button>
-          <el-button type="primary" size="mini" v-if="changeCardVal" @click="batchDelete">批量删除</el-button>
-          <div style="float: right;">
+        <el-row class="clear" style="margin-bottom: 15px;" v-if="openQueryBar">
+          <div style="float: left;">
             <el-form :model="searchForm" label-width="70px" inline size="mini" class="searchForm">
               <el-form-item label="公司名称" prop="companyName" style="margin: 0 10px;">
                 <el-input v-model="searchForm.companyName" @change="inputChange"></el-input>
@@ -40,9 +36,15 @@
                 <el-input v-model="searchForm.city"></el-input>
               </el-form-item>
               <el-form-item style="margin: 0 10px;">
-                <el-button type="primary">查询</el-button>
+                <el-button type="primary" @click="queryData">查询</el-button>
               </el-form-item>
             </el-form>
+          </div>
+          <div style="float:right">
+            <el-button type="primary" @click="clickAddBtn" size="mini" v-if="changeCardVal">新增</el-button>
+            <!-- <el-button type="">取消</el-button> -->
+            <el-button type="primary" size="mini" v-if="changeCardVal"  @click="clickSaveBtn">保存</el-button>
+            <el-button type="primary" size="mini" v-if="changeCardVal"  @click="batchDelete">批量删除</el-button>
           </div>
         </el-row>
         <el-table :data="tableData" height="100%" stripe
@@ -303,9 +305,11 @@ export default class Home extends Vue {
   private selectedTableRow: JsonData[] = [];
   private searchForm = {
     companyName: '',
-    isToMarket: '',
+    createdDate: '',
     city: ''
   };
+  //查询后的数据
+  private allSearchData: JsonData[] = [];
   private cellUpdated = {
     label: '',
     value: ''
@@ -569,11 +573,12 @@ export default class Home extends Vue {
   }
   getTableData() {
     this.allCompanyData = JSON.parse(JSON.stringify(ServiceData));
-    this.getList();
+    // this.getList();
+    this.queryData();
   }
   getList() {
-    this.tableData = this.allCompanyData.filter((item, index) => index < this.currentPage * this.pageSize && index >= this.pageSize * (this.currentPage - 1));
-    this.totalSize = this.allCompanyData.length;
+    this.tableData = this.allSearchData.filter((item, index) => index < this.currentPage * this.pageSize && index >= this.pageSize * (this.currentPage - 1));
+    this.totalSize = this.allSearchData.length;
   }
   filterHandler(value: string, row: any, column: any) {
     const property = column['property'];
@@ -592,6 +597,18 @@ export default class Home extends Vue {
   }
   toggleHeader(){
     this.openQueryBar = !this.openQueryBar;
+  }
+  queryData(){
+    const {companyName, createdDate, city} = this.searchForm;
+    const data: JsonData[] = [];
+    const time = createdDate.split('-').join('');
+    this.allCompanyData.forEach(item => {
+      if(item.companyName.indexOf(companyName) !== -1 && item.createdDate.indexOf(time) !== -1 && item.city.indexOf(city) !== -1){
+        data.push(item);
+      }
+    })
+    this.allSearchData = data;
+    this.getList();
   }
 }
 </script>
